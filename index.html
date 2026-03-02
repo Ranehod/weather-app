@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" 
+        content="width=device-width, initial-scale=1.0">
+        <title>Погода в мире</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Погода</h1>
+
+            <div class="selected-city">
+                <h2 id="cityName">Krakow</h2>
+                <div class="weather-info">
+                    <div class="temperature" id="temp">5 ©C</div>
+                    <div class="condition" id="condition">Пасмурно</div>
+                    <div class="detail">
+                        <span>Влажность;
+                            <span id="humidity">73%</span>
+                        </span>
+                        <span>Ветер: <span id="wind">48 км/ч </span></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cities-list">
+                <h3>Погода на 5 часов</h3>
+                <ul id="cities">
+                    <li>Москва</li>
+                    <li>Смоленский регион</li>
+                    <li>Могилёвский регион</li>
+                    <li>Брянский регион</li>
+                    <li>Кривой Рог</li>
+                    <li>Киев</li>
+                    <li>Киев</li>
+                    <li>Луганская область</li>
+                    <li>Орел</li>
+                    <li>Липецк</li>
+                    <li>Воронеж</li>
+                    <li>Львов</li>
+                    <li>Ровно</li>
+                </ul>
+            </div>
+
+            <button id="refreshBtn">Обновить</button>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+    </html>
