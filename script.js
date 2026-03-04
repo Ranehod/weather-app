@@ -37,7 +37,7 @@ async function getRealWeather(city) {
         cityEl.textContent = data.name;
         tempEl.textContent = `${Math.round(data.main.temp)} °C`;
         condEl.textContent = data.weather[0].description;
-        humimityEl.innerHTML = `${translations[currentLang].humidity}: ${data.main.humidity} %`;
+        humEl.innerHTML = `${translations[currentLang].humidity}: ${data.main.humidity} %`;
         windEl.innerHTML = `${translations[currentLang].wind}: ${data.wind.speed} км/ч`;
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
