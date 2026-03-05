@@ -8,8 +8,34 @@ const translations = {
 
 let currentLang = 'ua';
 
+function getWeatherIcon(condition) {
+    const iconMap = {
+        'clear': 'fa-sun',
+        'sun': 'fa-sun',
+        'cloud': 'fa-cloud',
+        'clouds': 'fa-cloud',
+        'rain': 'fa-cloud-rain',
+        'drizzle': 'fa-cloud-rain',
+        'thunderstorm': 'fa-cloud-bolt',
+        'snow': 'fa-snowflake',
+        'mist': 'fa-smog',
+        'fog': 'fa-smog',
+        'haze': 'fa-smog',
+    };
+    const lower = condition.toLowerCase();
+    for (let key in iconMap) {
+        if (lower.includes(key)) {
+            return iconMap[key];
+        }
+    }
+    return 'fa-cloud-sun';
+}
+
 function changeLanguage(lang) {
     currentLang = lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(`lang-${lang}`).classList.add('active');
+    
     const city = document.getElementById('cityName').textContent;
     if (city && !city.includes('Помилка') && !city.includes('Loading')) {
         getRealWeather(city);
@@ -45,8 +71,7 @@ async function getRealWeather(city) {
         windEl.innerHTML = `${translations[currentLang].wind}: ${data.wind.speed} км/ч`;
 
         const iconName = getWeatherIcon(data.weather[0].description);
-
-        iconEl.className = `fas ${iconName}`;
+     iconEl.className = `fas ${iconName}`;
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -55,8 +80,8 @@ async function getRealWeather(city) {
         condEl.textContent = err.message;
         humEl.innerHTML = '';
         windEl.innerHTML = '';
-        iconEl.className = 'fas fa-exclamtion-triangle';
-        console.error('Помилка API')
+        iconEl.className = 'fas fa-exclamation-triangle'; 
+        console.error('Помилка API:', err);
     }
 }
 
@@ -65,52 +90,23 @@ document.addEventListener('DOMContentLoaded', () => {
         li.addEventListener('click', () => getRealWeather(li.textContent));
     });
 
-    document.getElementById('lang-ua')?.addEventListener('click', () => changeLanguage('ua'));
-    document.getElementById('lang-en')?.addEventListener('click', () => changeLanguage('en'));
-    document.getElementById('lang-ru')?.addEventListener('click', () => changeLanguage('ru'));
+    document.getElementById('lang-ua').addEventListener('click', () => changeLanguage('ua'));
+    document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+    document.getElementById('lang-ru').addEventListener('click', () => changeLanguage('ru'));
 
     const firstCity = document.querySelector('#cities li');
     if (firstCity) getRealWeather(firstCity.textContent);
 });
 
-const refreshBtn = document.getElementById('refresh');
+const refreshBtn = document.getElementById('refreshBtn'); 
 if (refreshBtn) {
     refreshBtn.addEventListener('click', () => {
         const city = document.getElementById('cityName').textContent;
-        if (city && !city.includes('Помилка')) getRealWeather(city);
-        else document.querySelector('#cities li')?.click();
-    });
-
-    function getWeatherIcon(condition) {
-        const iconMap = {
-            'clear': 'fa-sun' ,
-            'sun':'fa-sun',
-            'cloud':'fa-cloud',
-            'clouds':'fa-cloud',
-            'rain':'fa-cloud-rain',
-            'drizzle':'fa-cloud-rain',
-            'thunderstorm':'fa-cloud-bolt',
-            'snow':'fa-snowFlake',
-            'mist':'fa-smog',
-            'fog':'fa-smog',
-            'haze':'fa-smog',
-        };
-        const lower = condition.toLowerCase();
-        for (let key in iconMap) {
-            if (lower.includes(key)) {
-                return iconMap[key];
-            }
-        }
-        return 'fa-cloud-sun';
-    }
-
-    function changeLanguage(lang) {
-        currentLang = lang;
-        document.querySelectorAll('.lang-btn').forEach(btn=> btn.classLost.remove('active'));
-        document.getElementById('lang-${lang}').classList.add('active');
-        const city = document.getElementById('cityName').textContent;
-        if (city&& ! city.includes('Помилка')) {
+        if (city && !city.includes('Помилка') && !city.includes('Loading')) {
             getRealWeather(city);
+        } else {
+            const firstCity = document.querySelector('#cities li');
+            if (firstCity) getRealWeather(firstCity.textContent);
         }
-        }
+    });
 }
