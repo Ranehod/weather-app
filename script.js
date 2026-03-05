@@ -6,6 +6,13 @@ const translations = {
     ru: { humidity: 'Влажность', wind: 'Ветер', loading: 'Загрузка...', error: 'Ошибка', refresh:'Обновить' }
 };
 
+function updateUILanguage () {
+    const refreshBtn = documentElementById('refreshBtn');
+    if (refreshBtn) {
+        refreshBtn.textContent = translations[currentLang].refresh;
+    }
+}
+
 let currentLang = 'ua';
 
     function getWeatherIcon(condition) {
