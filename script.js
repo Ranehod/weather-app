@@ -8,7 +8,7 @@ const translations = {
 
 let currentLang = 'ua';
 
-function getWeatherIcon(condition) {
+    function getWeatherIcon(condition) {
     const iconMap = {
         'clear': 'fa-sun',
         'sun': 'fa-sun',
@@ -21,6 +21,24 @@ function getWeatherIcon(condition) {
         'mist': 'fa-smog',
         'fog': 'fa-smog',
         'haze': 'fa-smog',
+        'ясно': 'fa-sun',
+        'сонячно': 'fa-sun',
+        'хмарно': 'fa-cloud',
+        'дощ': 'fa-cloud-rain',
+        'злива': 'fa-cloud-rain',
+        'гроза': 'fa-cloud-bolt',
+        'сніг': 'fa-snowflake',
+        'туман': 'fa-smog',
+        'імла': 'fa-smog',
+        'ясно': 'fa-sun',
+        'солнечно': 'fa-sun',
+        'облачно': 'fa-cloud',
+        'дождь': 'fa-cloud-rain',
+        'ливень': 'fa-cloud-rain',
+        'гроза': 'fa-cloud-bolt',
+        'снег': 'fa-snowflake',
+        'туман': 'fa-smog',
+        'мгла': 'fa-smog',
     };
     const lower = condition.toLowerCase();
     for (let key in iconMap) {
