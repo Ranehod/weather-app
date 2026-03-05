@@ -118,3 +118,37 @@ button {
 button:hover {
     background: #5a67d8;
 }
+
+.land-switcher {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.lang-btn {
+    background: transparent;
+    border: 2px solid #6677ea;
+    color: #667eea;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.lang-btn:hover {
+    background: #667eea;
+    color: white;
+}
+
+.lang-btn.active {
+    background: #667eea;
+    color: white;
+}
+
+#weatherIcon {
+    font-size: 48px;
+    color: #667eea;
+    margin-left: 10px;
+}

@@ -22,10 +22,14 @@ async function getRealWeather(city) {
     const condEl = document.getElementById('condition');
     const humEl = document.getElementById('humidity');
     const windEl = document.getElementById('wind');
+    const iconEl = document.getElementById('weatherIcon');
 
     cityEl.textContent = city;
     tempEl.textContent = '...';
     condEl.textContent = translations[currentLang].loading;
+    humEl.innerHTML = '';
+    windEl.innerHTML = '';
+    iconEl.className = 'fas fa-spinner fa-pulse';
 
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=${currentLang}`;
 
@@ -40,6 +44,10 @@ async function getRealWeather(city) {
         humEl.innerHTML = `${translations[currentLang].humidity}: ${data.main.humidity} %`;
         windEl.innerHTML = `${translations[currentLang].wind}: ${data.wind.speed} км/ч`;
 
+        const iconName = getWeatherIcon(data.weather[0].description);
+
+        iconEl.className = `fas ${iconName}`;
+
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
     } catch (err) {
@@ -47,6 +55,8 @@ async function getRealWeather(city) {
         condEl.textContent = err.message;
         humEl.innerHTML = '';
         windEl.innerHTML = '';
+        iconEl.className = 'fas fa-exclamtion-triangle';
+        console.error('Помилка API')
     }
 }
 
@@ -70,4 +80,37 @@ if (refreshBtn) {
         if (city && !city.includes('Помилка')) getRealWeather(city);
         else document.querySelector('#cities li')?.click();
     });
+
+    function getWeatherIcon(condition) {
+        const iconMap = {
+            'clear': 'fa-sun' ,
+            'sun':'fa-sun',
+            'cloud':'fa-cloud',
+            'clouds':'fa-cloud',
+            'rain':'fa-cloud-rain',
+            'drizzle':'fa-cloud-rain',
+            'thunderstorm':'fa-cloud-bolt',
+            'snow':'fa-snowFlake',
+            'mist':'fa-smog',
+            'fog':'fa-smog',
+            'haze':'fa-smog',
+        };
+        const lower = condition.toLowerCase();
+        for (let key in iconMap) {
+            if (lower.includes(key)) {
+                return iconMap[key];
+            }
+        }
+        return 'fa-cloud-sun';
+    }
+
+    function changeLanguage(lang) {
+        currentLang = lang;
+        document.querySelectorAll('.lang-btn').forEach(btn=> btn.classLost.remove('active'));
+        document.getElementById('lang-${lang}').classList.add('active');
+        const city = document.getElementById('cityName').textContent;
+        if (city&& ! city.includes('Помилка')) {
+            getRealWeather(city);
+        }
+        }
 }
