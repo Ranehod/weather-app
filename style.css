@@ -2,11 +2,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    background: linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -20,14 +20,31 @@ body {
     padding: 30px;
     max-width: 500px;
     width: 100%;
-    box-shadow: 0 10px 40px rgba(0,0,0, 0.2);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 }
 
 h1 {
     color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-    font-size: 32px;
+    font-size: 28px;
+}
+
+.lang-btn {
+    background: transparent;
+    border: 2px solid #667eea;
+    color: #667eea;
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-left: 5px;
+}
+
+.lang-btn:hover,
+.lang-btn.active {
+    background: #667eea;
+    color: white;
 }
 
 .selected-city {
@@ -35,16 +52,19 @@ h1 {
     border-radius: 15px;
     padding: 20px;
     margin-bottom: 25px;
+    text-align: center;
 }
 
 .selected-city h2 {
     color: #444;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     font-size: 24px;
 }
 
-.weather-info {
-    text-align: center;
+#weatherIcon {
+    font-size: 48px;
+    color: #667eea;
+    margin-bottom: 10px;
 }
 
 .temperature {
@@ -65,11 +85,12 @@ h1 {
     display: flex;
     justify-content: space-around;
     color: #555;
-    font-size: 14px;
+    font-size: 16px;
 }
 
-.cities-list {
-    margin-bottom: 20px;
+.details i {
+    color: #667eea;
+    margin-right: 5px;
 }
 
 .cities-list h3 {
@@ -81,18 +102,16 @@ h1 {
 .cities-list ul {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
 }
 
 .cities-list li {
     background: #f0f0f0;
-    padding: 10px;
+    padding: 12px;
     border-radius: 8px;
     text-align: center;
-    font-size: 14px;
-    color: #555;
-    cursor: pointer;
+     cursor: pointer;
     transition: all 0.3s;
 }
 
@@ -102,7 +121,7 @@ h1 {
     transform: scale(1.05);
 }
 
-button {
+#refreshBtn {
     width: 100%;
     padding: 15px;
     background: #667eea;
@@ -113,43 +132,10 @@ button {
     font-weight: bold;
     cursor: pointer;
     transition: background 0.3s;
+    margin-top: 20px;
 }
 
-button:hover {
+#refreshBtn:hover {
     background: #5a67d8;
 }
 
-.lang-switcher {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    justify-content: center;
-}
-
-.lang-btn {
-    background: transparent;
-    border: 2px solid #6677ea;
-    color: #667eea;
-    padding: 8px 16px;
-    border-radius: 30px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.lang-btn:hover {
-    background: #667eea;
-    color: white;
-}
-
-.lang-btn.active {
-    background: #667eea;
-    color: white;
-}
-
-#weatherIcon {
-    font-size: 48px;
-    color: #667eea;
-    margin-left: 10px;
-}

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Погода в мире</title>
+    <title>Погода</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -19,14 +19,14 @@
         </div>
 
         <div class="selected-city">
-            <h2 id="cityName">Krakow</h2>
+            <h2 id="cityName">Краков</h2>
             <i class="fas" id="weatherIcon"></i>
             <div class="weather-info">
-                <div class="temperature" id="temp">5 °C</div>
-                <div class="condition" id="condition">Пасмурно</div>
-                <div class="detail">
-                    <span id="humidity">73%</span>
-                    <span id="wind">48 км/ч</span>
+                <div class="temperature" id="temp">...</div>
+                <div class="condition" id="condition">...</div>
+                <div class="details">
+                    <span><i class="fas fa-tint"></i> <span id="humidity"></span></span>
+                    <span><i class="fas fa-wind"></i> <span id="wind"></span></span>
                 </div>
             </div>
         </div>
@@ -34,18 +34,16 @@
         <div class="cities-list">
             <h3>Погода на 5 часов</h3>
             <ul id="cities">
-                <li>Москва</li>
-                <li>Кривой Рог</li>
-                <li>Киев</li>
-                <li>Орел</li>
-                <li>Липецк</li>
-                <li>Воронеж</li>
-                <li>Львов</li>
-                <li>Ровно</li>
+                <li>Краков</li>
+                <li>Київ</li>
+                <li>Львів</li>
+                <li>Варшава</li>
+                <li>Вроцлав</li>
+                <li>Гданськ</li>
             </ul>
         </div>
 
-        <button id="refreshBtn">Обновить</button>
+        <button id="refreshBtn">Оновити</button>
     </div>
 
     <script src="script.js"></script>
