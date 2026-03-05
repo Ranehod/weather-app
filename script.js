@@ -1,9 +1,9 @@
 const apiKey = 'f39517cf14dab1a8df156c0370063687';
 
 const translations = {
-    ua: { humidity: 'Вологість', wind: 'Вітер', loading: 'Завантаження...', error: 'Помилка' },
-    en: { humidity: 'Humidity', wind: 'Wind', loading: 'Loading...', error: 'Error' },
-    ru: { humidity: 'Влажность', wind: 'Ветер', loading: 'Загрузка...', error: 'Ошибка' }
+    ua: { humidity: 'Вологість', wind: 'Вітер', loading: 'Завантаження...', error: 'Помилка' , refresh:'Оновити' },
+    en: { humidity: 'Humidity', wind: 'Wind', loading: 'Loading...', error: 'Error', refresh:'Refresh' },
+    ru: { humidity: 'Влажность', wind: 'Ветер', loading: 'Загрузка...', error: 'Ошибка', refresh:'Обновить' }
 };
 
 let currentLang = 'ua';
