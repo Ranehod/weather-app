@@ -64,6 +64,7 @@ function changeLanguage(lang) {
 async function getRealWeather(city) {
     const cityEl = document.getElementById('cityName');
     const tempEl = document.getElementById('temp');
+    const feelsLike = document.getElementById('feelslike');
     const condEl = document.getElementById('condition');
     const humEl = document.getElementById('humidity');
     const windEl = document.getElementById('wind');
@@ -71,6 +72,7 @@ async function getRealWeather(city) {
 
     cityEl.textContent = city;
     tempEl.textContent = '...';
+    feelsLike.textContent = '';
     condEl.textContent = translations[currentLang].loading;
     humEl.innerHTML = '';
     windEl.innerHTML = '';
@@ -85,6 +87,7 @@ async function getRealWeather(city) {
 
         cityEl.textContent = data.name;
         tempEl.textContent = `${Math.round(data.main.temp)} °C`;
+        feelsLikeEl.textContent = `(відчувається як $ {Math.round(data.main.feels_like)}°C`;
         condEl.textContent = data.weather[0].description;
         humEl.innerHTML = `${translations[currentLang].humidity}: ${data.main.humidity} %`;
         windEl.innerHTML = `${translations[currentLang].wind}: ${data.wind.speed} км/ч`;
