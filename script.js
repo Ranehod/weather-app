@@ -26,6 +26,9 @@ const translations = {
 
 let currentLang = 'ua';
 
+let favoriteCities = 
+JSON.parse(localStorage.getItem('favoriteCities')) || [];
+
 function getWeatherIcon(condition) {
     const iconMap = {
         'clear': 'fa-sun', 'sun': 'fa-sun', 'ясно': 'fa-sun', 'солнечно': 'fa-sun',
@@ -40,6 +43,69 @@ function getWeatherIcon(condition) {
         if (lower.includes(key)) return iconMap[key];
     }
     return 'fa-cloud-sun';
+}
+
+function addToFavorites(cityName,cityDataKey) {
+    const city = {
+        name: cityName,
+        dataKey: cityDataKey
+    };
+    if (!favoriteCities.some(c => c.dataKey === cityDataKey)) {
+        favoriteCities.push(city);
+        saveFavorites();
+        updateFavoritesList();
+        UpdateStarIcons();
+    }
+}
+
+function removeFromeFavorites() {
+    const favList = 
+    document.getElementById('favorites-list');
+    if (!favList) return;
+
+    if (favoriteCities.lenght === 0) {
+        favList.innerHTML = '';
+        return;
+    }
+
+    favList.innerHTML = favoriteCities.map(city =>
+        `<li data-city="$ {city.dataKey}">
+        ${cityName}
+        <span class="remove-star" onclick="event.stopPropagation ();
+        removeFromFavorites('${city.dataKey}')">x</span>
+        </li>`
+    ).join('');
+
+    document.querySelectorAll('#favorites-list li').forEach(li => {
+        li.addEventListener('click', (e) => {
+            if 
+            (e.target.classList.contains('remove-star'))return;
+            const cityKey = 
+            li.dataset.city;
+            const cityName = 
+            favoriteCities.find(c => c.dataKey === cityKey)?.name || cityKey;
+            getRealWeather(cityName);
+        });
+    });
+}
+
+function updateStarIcons () {
+    document.querySelectorAll('#cities li').forEach(li => {
+        const star = 
+        li.querySelector('.star');
+        li.dataset.city;
+        if (star) {
+            if (favoriteCities.some(c => c.dataKey === cityKey)) {
+                star.textContent = '★';
+
+                star.classList.add('active');
+            } else {
+                star.textContent = '★';
+
+                star.classList.remove('active');
+            }
+        }
+    });
 }
 
 
@@ -120,6 +186,37 @@ async function getRealWeather(city) {
     }
 }
 
+document.addEventListener('DOMContentLoaded',() => {
+    document.querySelectorAll('#cities li').forEach(li => {
+        const star = li.querySelector('.star');
+        if (star) {
+
+            star.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const cityKey = 
+                li.dataset.city;
+                const cityName =
+                li.textContent.replace('★','').replace('★','').trim();
+                if
+                (favoriteCities.some(c => c.dataKey === cityKey)) {
+
+                    removeFromeFavorites(cityKey);
+                } else {
+
+                    addToFavorites(cityName, cityName);
+                }
+            });
+        }
+        li.addEventListener('click',(e) => {
+            if
+            (e.target.classList.contains('star'))
+            return;
+
+            getRealWeather(li.dataset.city);
+        });
+    });
+})
+
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('#cities li').forEach(li => {
         li.addEventListener('click', () => getRealWeather(li.dataset.city));
@@ -152,6 +249,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (firstCity) getRealWeather(firstCity.dataset.city);
 
     updateUILanguage();
+
+    updateFavoritesList();
+    updateStarIcons();
 });
 
 
