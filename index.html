@@ -29,11 +29,21 @@
                     <span><i  class="fas fa-tint"></i> <span id="humidity"></span></span>
                     <span><i class="fas fa-wind"></i> <span id="wind"></span></span>
                 </div>
+                <div class="sun-times">
+                    <span><i clas="fas fa-sunrise"></i>
+                    <span id="sunrise">--:--</span></span>
+                </div>
             </div>
         </div>
 
         <div class="cities-list">
             <h3>Погода на 5 часов</h3>
+            
+             <div class="search-container">
+            <input type="text" id="cityInput" placeholder="Введіть назву міста (англійською)">
+            <button id="searchBtn">Пошук</button>
+        </div>
+
             <ul id="cities">
                 <li data-city="Krakow">Краков</li>
                 <li data-city="Kyiv">Київ</li>

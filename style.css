@@ -144,3 +144,44 @@ h1 {
     color: #888;
     margin-bottom: 10px;
 }
+
+.sun-times {
+    display: flex;
+    justify-content: space-around;
+    margin: 15px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.sun-times i {
+    color: #f39c12;
+    margin-right: 5px;
+}
+
+.search-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#cityInput {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #667eea;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+#searchBtn {
+    padding: 10px 20px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#searchBtn:hover {
+    background: #5a67d8;
+}

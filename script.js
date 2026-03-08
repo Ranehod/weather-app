@@ -98,6 +98,21 @@ async function getRealWeather(city) {
         humEl.innerHTML = `${translations[currentLang].humidity}: ${data.main.humidity} %`;
         windEl.innerHTML = `${translations[currentLang].wind}: ${data.wind.speed} км/ч`;
         iconEl.className = `fas ${getWeatherIcon(data.weather[0].description)}`;
+        
+        const sunriseEl = document.getElementById('sunrise');
+        const sunsetEl = document.getElementById('sunset');
+
+        if (sunriseEl && sunsetEl && data.sys && data.sys.sunrise && data.sys.sunset)
+        {
+            const timezoneOffset = data.timezone;
+            const localSunrise = new Date((data.sys.sunrise + timezoneOffset) * 1000);
+            const localSunset = new Date((data.sys.sunset + timezoneOffset) * 1000);
+
+            sunriseEl.textContent = localSunrise.toLocaleTimeString([],
+                { hour: '2-digit', minute: '2-digit'});
+                sunsetEl.textContent = localSunset.toLocaleTimeString([],
+                    { hour: '2-digit', minute: '2-digit'});
+        }
 
     } catch (error) {
         console.error('Помилка API:', error);
@@ -142,6 +157,27 @@ if (refreshBtn) {
             // Якщо помилка, пробуємо перше місто
             const firstCity = document.querySelector('#cities li');
             if (firstCity) getRealWeather(firstCity.dataset.city);
+        }
+    });
+}
+
+const searchBtn = document.getElementById('searchBtn');
+const cityInput = document.getElementById('cityInput');
+
+if (searchBtn && cityInput) {
+    searchBtn.addEventListener('click',() => {
+        const city = cityInput.ariaValueMax.trim();
+        if (city) {
+            getRealWeather(city);
+            cityInput.value = '';
+        } else {
+            alert('Введіть назву міста');
+        }
+    });
+
+    cityInput.addEventListener('keypass', (e) => {
+        if (e.key === 'Enter') {
+            searchBtn.click();
         }
     });
 }
