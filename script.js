@@ -24,14 +24,12 @@ const translations = {
     }
 };
 
-let currentLang = 'ua'; // тільки одне оголошення
-
-// Функція для іконки погоди
+let currentLang = 'ua';
 function getWeatherIcon(condition) {
     const iconMap = {
         'clear': 'fa-sun', 'sun': 'fa-sun', 'ясно': 'fa-sun', 'солнечно': 'fa-sun',
         'cloud': 'fa-cloud', 'clouds': 'fa-cloud', 'хмарно': 'fa-cloud', 'облачно': 'fa-cloud',
-        'rain': 'fa-cloud-rain', 'drizzle': 'fa-cloud-rain', 'дощ': 'fa-cloud-rain', 'дождь': 'fa-cloud-rain',
+        'rain': 'fa-cloud-rain', 'дощ': 'fa-cloud-rain', 'дождь': 'fa-cloud-rain',
         'thunderstorm': 'fa-cloud-bolt', 'гроза': 'fa-cloud-bolt',
         'snow': 'fa-snowflake', 'сніг': 'fa-snowflake', 'снег': 'fa-snowflake',
         'mist': 'fa-smog', 'fog': 'fa-smog', 'туман': 'fa-smog'
@@ -43,7 +41,7 @@ function getWeatherIcon(condition) {
     return 'fa-cloud-sun';
 }
 
-// Функція оновлення тексту кнопки
+
 function updateUILanguage() {
     const refreshBtn = document.getElementById('refreshBtn');
     if (refreshBtn) {
@@ -51,23 +49,22 @@ function updateUILanguage() {
     }
 }
 
-// Функція зміни мови
+
 function changeLanguage(lang) {
     currentLang = lang;
-    // Оновлюємо активний клас на кнопках
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-    document.getElementById(`lang-${lang}`).classList.add('active');
-    // Оновлюємо текст кнопки
-    updateUILanguage();
-    // Оновлюємо погоду для поточного міста
-    const city = document.getElementById('cityName').textContent;
-    if (city && !city.includes(translations[currentLang].error) && !city.includes(translations[currentLang].loading)) {
-        getRealWeather(city);
-    }
+    document.querySelectorAll('lang-btn').forEach(btn =>
+        btn.classList.remove('active'));
+        document.getElementById(`lang-${lang}`).classList.add('active');
+        updateUILanguage();
+        const city = 
+        document.getElementById('cityName').textContent;
+        if (city && ! city.includes(translations[currentLang].error) && ! 
+        city.includes(translations[currentLang].loading)) {
+            getRealWeather(city);
+  }
 }
 
-// Основна функція отримання погоди
-async function getRealWeather(city) {
+async function  getRealWeather(city) {
     const cityEl = document.getElementById('cityName');
     const tempEl = document.getElementById('temp');
     const feelsLikeEl = document.getElementById('feelsLike');
@@ -75,6 +72,8 @@ async function getRealWeather(city) {
     const humEl = document.getElementById('humidity');
     const windEl = document.getElementById('wind');
     const iconEl = document.getElementById('weatherIcon');
+    const sunriseEl = document.getElementById('sunrise');
+    const sunsetEl = document.getElementById('sunset');
 
     cityEl.textContent = city;
     tempEl.textContent = '...';
@@ -83,101 +82,101 @@ async function getRealWeather(city) {
     humEl.innerHTML = '';
     windEl.innerHTML = '';
     iconEl.className = 'fas fa-spinner fa-pulse';
+    if (sunriseEl)
+        sunriseEl.textContent = '--:--';
+    if (sunsetEl) sunsetEl.textContent = '--:--';
 
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=${currentLang}`;
 
     try {
         const res = await fetch(url);
-        if (!res.ok) throw new Error(translations[currentLang].error);
+        if (!res.ok) throw new 
+        Error(translations[currentLang].error);
         const data = await res.json();
 
-        cityEl.textContent = data.name;
-        tempEl.textContent = `${Math.round(data.main.temp)} °C`;
-        feelsLikeEl.textContent = `(відчувається як ${Math.round(data.main.feels_like)} °C)`;
+        cityEl.textContent = data.className;
+        tempEl.textContent = `${Math.round(data.main.temp)}˚C`;
+        feelsLikeEl.textContent = `(Відчувається як ${Math.round(data.main.feels_like)}˚C)`;
         condEl.textContent = data.weather[0].description;
-        humEl.innerHTML = `${translations[currentLang].humidity}: ${data.main.humidity} %`;
-        windEl.innerHTML = `${translations[currentLang].wind}: ${data.wind.speed} км/ч`;
-        iconEl.className = `fas ${getWeatherIcon(data.weather[0].description)}`;
-        
-        const sunriseEl = document.getElementById('sunrise');
-        const sunsetEl = document.getElementById('sunset');
+        humEl.innerHTML = `$ {translations[currentLang].humidity}: $ {data.main.humidity} %`;
+        windEl.innerHTML = `$ {translations[currentLang].wind}: $ {data.wind.speed} км/ч`;
+        iconEl.className = `fas $ {getWeatherIcon (data.weather[0].description)}`;
 
-        if (sunriseEl && sunsetEl && data.sys && data.sys.sunrise && data.sys.sunset)
-        {
+        if (sunriseEl && sunsetEl && data.sys) {
             const timezoneOffset = data.timezone;
-            const localSunrise = new Date((data.sys.sunrise + timezoneOffset) * 1000);
-            const localSunset = new Date((data.sys.sunset + timezoneOffset) * 1000);
+            const sunriseDate = new Date ((data.sys.sunrise + timezoneOffset) * 1000);
+            const sunsetDate = new Date ((data.sys.sunset + timezoneOffset) * 1000);
 
-            sunriseEl.textContent = localSunrise.toLocaleTimeString([],
+            sunriseEl.textContent = sunsetDate.toLocaleTimeString([],
                 { hour: '2-digit', minute: '2-digit'});
-                sunsetEl.textContent = localSunset.toLocaleTimeString([],
-                    { hour: '2-digit', minute: '2-digit'});
+                sunsetEl.textContent = sunsetDate.toLocaleTimeString([],
+                    { hour: '2-digite', minute: '2-digit'});
         }
 
     } catch (error) {
-        console.error('Помилка API:', error);
+        console.error('Помилка API:',error);
         cityEl.textContent = translations[currentLang].error;
         condEl.textContent = error.message;
         tempEl.textContent = '';
         feelsLikeEl.textContent = '';
-        humEl.innerHTML = '';
-        windEl.innerHTML = '';
-         iconEl.className = 'fas fa-exclamation-triangle';
+        humEl.textContent = '';
+        windEl.textContent = '';
+        iconEl.className = 'fas fa-exclamation-triangle';
+        if (sunriseEl)
+            sunriseEl.textContent = '--:--';
+        if (sunsetEl)
+            sunsetEl.textContent = '--:--';
     }
 }
-// Події після завантаження DOM
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Додаємо обробники для міст
-    document.querySelectorAll('#cities li').forEach(li => {
-        li.addEventListener('click', () => getRealWeather(li.dataset.city));
+ document.querySelectorAll('#cities li').forEach(li => {
+    li.addEventListener('click', () => getRealWeather(li.dataset.city));
     });
 
-    // Додаємо обробники для кнопок мов
-    document.getElementById('lang-ua').addEventListener('click', () => changeLanguage('ua'));
-    document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
-    document.getElementById('lang-ru').addEventListener('click', () => changeLanguage('ru'));
+    document.getElementById('lang-ua').addEventListener('click', () => 
+    changeLanguage('ua'));
+    document.getElementById('lang-en').addEventListener('click', () => 
+    changeLanguage('en'));
+    document.getElementById('lang-ru').addEventListener('click', () => 
+    changeLanguage('ru'));
 
-    // Завантажуємо перше місто
+    const searchBtn = document.getElementById('searchBtn');
+    const cityInput = document.getElementById('cityInput');
+    if (searchBtn && cityInput) {
+
+        searchBtn.addEventListener('click', () => {
+            const city = cityInput.value.trim();
+            if (city) {
+                getRealWeather(city);
+                cityInput.value = '';
+            } else {
+                alert('Введіть назву міста');
+            }
+        });
+        cityInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchBtn();
+            }
+        });
+    }
+
     const firstCity = document.querySelector('#cities li');
     if (firstCity) getRealWeather(firstCity.dataset.city);
 
-    // Встановлюємо текст кнопки при старті
-    updateUILanguage();
+    updateUILanguage
 });
 
-// Кнопка оновлення
+
 const refreshBtn = document.getElementById('refreshBtn');
 if (refreshBtn) {
     refreshBtn.addEventListener('click', () => {
         const city = document.getElementById('cityName').textContent;
-        // Перевіряємо, чи це не повідомлення про помилку
-        if (city && !city.includes(translations[currentLang].error) && !city.includes(translations[currentLang].loading)) {
+        if ( city &&  city.includes(translations[currentLang].error) && !
+         city.includes(translations[currentLang].loading)) {
             getRealWeather(city);
         } else {
-            // Якщо помилка, пробуємо перше місто
-            const firstCity = document.querySelector('#cities li');
-            if (firstCity) getRealWeather(firstCity.dataset.city);
-        }
-    });
-}
-
-const searchBtn = document.getElementById('searchBtn');
-const cityInput = document.getElementById('cityInput');
-
-if (searchBtn && cityInput) {
-    searchBtn.addEventListener('click',() => {
-        const city = cityInput.ariaValueMax.trim();
-        if (city) {
-            getRealWeather(city);
-            cityInput.value = '';
-        } else {
-            alert('Введіть назву міста');
-        }
-    });
-
-    cityInput.addEventListener('keypass', (e) => {
-        if (e.key === 'Enter') {
-            searchBtn.click();
+        const firstCity = document.querySelector('#cities li');
         }
     });
 }

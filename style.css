@@ -74,6 +74,12 @@ h1 {
     margin-bottom: 10px;
 }
 
+.feels-like {
+    font-size: 16px;
+    color: #888;
+    margin-bottom: 10px;
+}
+
 .condition {
     font-size: 18px;
     color: #666;
