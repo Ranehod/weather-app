@@ -61,7 +61,7 @@ body.night::before {
     100% { opacity: 0.9; }
 }
 
-/* Напис WAKE UP, NEO */
+
 body::after {
     content: "WAKE UP, NEO";
     position: fixed;
