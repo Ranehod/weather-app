@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
             <h1>Погода</h1>
             <div id="language-switcher">
                 <button id="lang-ua" class="lang-btn active">UA</button>
@@ -19,6 +19,7 @@
         </div>
 
         <div class="selected-city">
+            <div class="display: flex; alight-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;"></div>
             <h2 id="cityName">Краков</h2>
             <i class="fas" id="weatherIcon"></i>
             <div class="weather-info">
@@ -26,37 +27,40 @@
                 <div class="feels-like" id="feelsLike"></div>
                 <div class="condition" id="condition">...</div>
                 <div class="details">
-                    <span><i  class="fas fa-tint"></i> <span id="humidity"></span></span>
+                    <span><i class="fas fa-tint"></i> <span id="humidity"></span></span>
                     <span><i class="fas fa-wind"></i> <span id="wind"></span></span>
                 </div>
                 <div class="sun-times">
-                    <span><i clas="fas fa-sunrise"></i>
-                    <span id="sunrise">--:--</span></span>
+                    <span><i class="fas fa-sunrise"></i> <span id="sunrise">--:--</span></span>
+                    <span><i class="fas fa-sunset"></i> <span id="sunset">--:--</span></span>
                 </div>
             </div>
         </div>
 
         <div class="cities-list">
             <h3>Погода на 5 часов</h3>
-            
-             <div class="search-container">
-            <input type="text" id="cityInput" placeholder="Введіть назву міста (англійською)">
-            <button id="searchBtn">Пошук</button>
-        </div>
-
+            <div class="search-container">
+                <input type="text" id="cityInput" placeholder="Введіть назву міста (англійською)">
+                <button id="searchBtn">Пошук</button>
+            </div>
             <ul id="cities">
-                <li data-city="Krakow">Краков</li>
-                <li data-city="Kyiv">Київ</li>
-                <li data-city="Lviv">Львів</li>
-                <li data-city="Warsaw">Варшава</li>
-                <li data-city="Wroclaw">Вроцлав</li>
-                <li data-city="Gdańsk">Гданськ</li>
+                <li data-city="Krakow"><span class="star">☆</span> Краков</li>
+                <li data-city="Kyiv"><span class="star">☆</span> Київ</li>
+                <li data-city="Lviv"><span class="star">☆</span> Львів</li>
+                <li data-city="Warsaw"><span class="star">☆</span> Варшава</li>
+                <li data-city="Wroclaw"><span class="star">☆</span> Вроцлав</li>
+                <li data-city="Gdansk"><span class="star">☆</span> Гданськ</li>
             </ul>
+
+            <div class="favorites-section">
+                <h3>★ Улюблені міста</h3>
+                <ul id="favorites-list"></ul>
+            </div>
         </div>
 
         <button id="refreshBtn">Оновити</button>
     </div>
-
+   
     <script src="script.js"></script>
 </body>
 </html>
