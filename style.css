@@ -353,3 +353,66 @@ font-size: 14px;
     color: #f39c12;
     text-shadow: 0 0 5px rgba(243, 156, 18, 0.5);
 }
+
+.forecast-section {
+    margin: 30px 0;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 15px;
+    border: 1px solid #eee;
+}
+
+.forecast-section h3 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.forecast-container {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    scrollbar-width: thin;
+}
+
+.forecast-card {
+    min-width: 120px;
+    background: white;
+    border-radius: 12px;
+    padding: 15px 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transfrom 0.3s;
+}
+
+.forecast-card:hover {
+    transform: translateY(-5px);
+}
+
+.forecast-day {
+    font-weight: bold;
+    color: #667eea;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.forecast-icon  {
+    font-size: 32px;
+    color: #667eea;
+    margin-bottom: 8px;
+}
+
+.forecast-temp {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.forecast-desc {
+    font-size: 12px;
+    color: #666;
+    text-transform: capitalize;
+}
