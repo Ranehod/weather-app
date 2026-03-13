@@ -6,22 +6,52 @@ const translations = {
         wind: 'Вітер',
         loading: 'Завантаження...',
         error: 'Помилка',
-        refresh: 'Оновити'
+        refresh: 'Оновити',
+        feelsLike: 'Відчувається як',
+        forecastTitle: 'Прогноз на 5 днів',
+        searchPlaceholder: 'Введіть назву міста (англійською)',
+        searchButton: 'Пошук',
+        favoritesTitle: '★ Улюблені міста',
+        favoritesEmpty: 'Список порожній. Додайте міста, натиснувши на зірочку.',
+        citiesTitle: 'Погода на 5 днів'
     },
     en: {
         humidity: 'Humidity',
         wind: 'Wind',
         loading: 'Loading...',
         error: 'Error',
-        refresh: 'Refresh'
+        refresh: 'Refresh',
+        feelsLike: 'feels like',
+        forecastTitle: '5-day Forecast',
+        searchPlaceholder: 'Enter city name (in English)',
+        searchButton: 'Search',
+        favoritesTitle: '★ Favorite Cities',
+        favoritesEmpty: 'The list is empty. Add cities by clicking on the star.',
+        citiesTitle: '5-day Weather'
     },
     ru: {
         humidity: 'Влажность',
         wind: 'Ветер',
         loading: 'Загрузка...',
         error: 'Ошибка',
-        refresh: 'Обновить'
+        refresh: 'Обновить',
+        feelsLike: 'Ощущается как',
+        forecastTitle: 'Прогноз на 5 дней',
+        searchPlaceholder: 'Введите название города (на английском)',
+        searchButton: 'Поиск',
+        favoritesTitle: '★ Избранные города',
+        favoritesEmpty: 'Список пуст. Добавьте город в избранные, нажав на звёздочку.',
+        citiesTitle: 'Погода на 5 дней'
     }
+};
+
+const cityTranslations = {
+    'Krakow': { ua: 'Краків', en: 'Krakow', ru: 'Краков' },
+    'Kyiv': { ua: 'Київ', en: 'Kyiv', ru: 'Киев' },
+    'Lviv': { ua: 'Львів', en: 'Lviv', ru: 'Львов' },
+    'Warsaw': { ua: 'Варшава', en: 'Warsaw', ru: 'Варшава' },
+    'Wroclaw': { ua: 'Вроцлав', en: 'Wroclaw', ru: 'Вроцлав' },
+    'Gdansk': { ua: 'Гданськ', en: 'Gdansk', ru: 'Гданск' }
 };
 
 let currentLang = 'ua';
@@ -106,22 +136,24 @@ function removeFromFavorites(cityDataKey) {
 function updateFavoritesList() {
     const favList = document.getElementById('favorites-list');
     if (!favList) return;
+
     if (favoriteCities.length === 0) {
-        favList.innerHTML = '';
+        favList.innerHTML = `<li style="list-style: none; color: #999; font-style: italic;">${translations[currentLang].favoritesEmpty}</li>`;
         return;
     }
+
     favList.innerHTML = favoriteCities.map(city => 
         `<li data-city="${city.dataKey}">
-            ${city.name}
+            ${cityTranslations[city.dataKey]?.[currentLang] || city.name}
             <span class="remove-star" onclick="event.stopPropagation(); removeFromFavorites('${city.dataKey}')">✕</span>
         </li>`
     ).join('');
+
     document.querySelectorAll('#favorites-list li').forEach(li => {
         li.addEventListener('click', (e) => {
             if (e.target.classList.contains('remove-star')) return;
             const cityKey = li.dataset.city;
-            const cityName = favoriteCities.find(c => c.dataKey === cityKey)?.name || cityKey;
-            getRealWeather(cityName);
+            getRealWeather(cityKey);
         });
     });
 }
@@ -142,23 +174,39 @@ function updateStarIcons() {
     });
 }
 
+function updateUIText() {
+    document.querySelector('.cities-list h3').textContent = translations[currentLang].citiesTitle;
+    document.querySelector('.favorites-section h3').textContent = translations[currentLang].favoritesTitle;
+    document.getElementById('searchBtn').textContent = translations[currentLang].searchButton;
+    document.getElementById('cityInput').placeholder = translations[currentLang].searchPlaceholder;
 
-function updateUILanguage() {
-    const refreshBtn = document.getElementById('refreshBtn');
-    if (refreshBtn) {
-        refreshBtn.textContent = translations[currentLang].refresh;
-    }
+    document.querySelectorAll('#cities li').forEach(li => {
+        const cityKey = li.dataset.city;
+        const starSpan = li.querySelector('.star');
+        const starHTML = starSpan ? starSpan.outerHTML : '';
+        if (cityTranslations[cityKey] && cityTranslations[cityKey][currentLang]) {
+            li.innerHTML = `${starHTML} ${cityTranslations[cityKey][currentLang]}`;
+        }
+    });
+
+    updateFavoritesList();
+
+    document.getElementById('refreshBtn').textContent = translations[currentLang].refresh;
 }
 
+function updateUILanguage() {
+    updateUIText();
+}
 
 function changeLanguage(lang) {
     currentLang = lang;
     document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
     document.getElementById(`lang-${lang}`).classList.add('active');
+    
     updateUILanguage();
-    const city = document.getElementById('cityName').textContent;
-    if (city && !city.includes(translations[currentLang].error) && !city.includes(translations[currentLang].loading)) {
-        getRealWeather(city);
+
+    if (currentCityKey) {
+        getRealWeather(currentCityKey);
     }
 }
 
@@ -192,9 +240,14 @@ async function getRealWeather(city) {
         if (!res.ok) throw new Error(translations[currentLang].error);
         const data = await res.json();
 
-        cityEl.textContent = data.name;
+        if (cityTranslations[city] && cityTranslations[city][currentLang]) {
+            cityEl.textContent = cityTranslations[city][currentLang];
+        } else {
+            cityEl.textContent = data.name;
+        }
+
         tempEl.textContent = `${Math.round(data.main.temp)} °C`;
-        feelsLikeEl.textContent = `(відчувається як ${Math.round(data.main.feels_like)} °C)`;
+        feelsLikeEl.textContent = `(${translations[currentLang].feelsLike} ${Math.round(data.main.feels_like)} °C)`;
         condEl.textContent = data.weather[0].description;
         humEl.innerHTML = `${translations[currentLang].humidity}: ${data.main.humidity} %`;
         windEl.innerHTML = `${translations[currentLang].wind}: ${data.wind.speed} км/ч`;
